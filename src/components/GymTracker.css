@@ -1,0 +1,336 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: #000;
+}
+
+/* NAVBAR */
+
+.navbar {
+  width: 100%;
+  padding: 25px 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0d0d0d;
+  border-bottom: 1px solid #1f1f1f;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  color: white;
+  font-size: 38px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 35px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #d1d1d1;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+/* HERO */
+
+.hero {
+  text-align: center;
+  padding: 140px 20px 120px;
+}
+
+.hero h1 {
+  font-size: 82px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+  line-height: 1.1;
+}
+
+.hero p {
+  font-size: 24px;
+  color: #a1a1a1;
+  margin-bottom: 35px;
+}
+
+.hero-btn {
+  padding: 16px 40px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  background: #d9d9d9;
+  transform: translateY(-3px);
+}
+
+/* SECTIONS */
+
+.workout-section,
+.bmi-section,
+.goals-section {
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.workout-section h2,
+.bmi-section h2,
+.goals-section h2 {
+  font-size: 54px;
+  margin-bottom: 60px;
+  color: white;
+}
+
+/* WORKOUT CARDS */
+
+.workout-cards {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 40px;
+  width: 320px;
+  transition: 0.3s;
+  box-shadow: 0 0 20px rgba(255,255,255,0.05);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: #444;
+}
+
+.emoji {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.card p {
+  font-size: 21px;
+  color: #cfcfcf;
+  margin: 10px 0;
+}
+
+/* BMI */
+
+/* BMI SECTION */
+
+.bmi-section {
+  padding: 120px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.bmi-container {
+  width: 100%;
+  max-width: 700px;
+  background: #0f0f0f;
+  border: 1px solid #1f1f1f;
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* TITLE */
+
+.bmi-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+
+  /* SPACE BELOW TITLE */
+  margin-bottom: 50px;
+}
+
+/* FORM BOX */
+
+.bmi-box {
+  width: 100%;
+  max-width: 500px;
+
+  /* CENTER THE FORM */
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* INPUTS */
+
+.bmi-box input {
+  width: 100%;
+  padding: 18px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: black;
+  font-size: 1rem;
+  outline: none;
+}
+
+.bmi-box input::placeholder {
+  color: #666;
+}
+
+/* BUTTON */
+
+.bmi-box button {
+  width: 100%;
+  padding: 18px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: black;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.bmi-box button:hover {
+  background: #dcdcdc;
+}
+
+/* RESULT */
+
+.bmi-result {
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* GOALS */
+
+.goals-grid {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+
+.goal-card {
+  width: 300px;
+  padding: 35px;
+  background: #111;
+  border-radius: 20px;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.goal-card:hover {
+  transform: translateY(-8px);
+}
+
+.goal-card h3 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.goal-card p {
+  font-size: 18px;
+  color: #b5b5b5;
+}
+
+/* FOOTER */
+
+.footer {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  border-top: 1px solid #1a1a1a;
+  margin-top: 60px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .hero h1 {
+    font-size: 52px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .workout-section h2,
+  .bmi-section h2,
+  .goals-section h2 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+}
