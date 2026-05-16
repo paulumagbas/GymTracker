@@ -5,7 +5,11 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://gym-tracker-ruby-mu.vercel.app",
+  })
+);
 app.use(express.json());
 
 /* MONGODB CONNECTION */
