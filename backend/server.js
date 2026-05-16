@@ -55,7 +55,10 @@ const verifyToken = (req, res, next) => {
 
   try {
 
-    const verified = jwt.verify(token, "SECRET_KEY");
+    const verified = jwt.verify(
+  token,
+  process.env.JWT_SECRET
+);
 
     req.user = verified;
 
@@ -144,15 +147,11 @@ app.post("/api/login", async (req, res) => {
 
     }
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-      },
-      "SECRET_KEY",
-      {
-        expiresIn: "1d",
-      }
-    );
+const token = jwt.sign(
+  { id: user._id },
+  process.env.JWT_SECRET,
+  { expiresIn: "1d" }
+);
 
     res.json({
       message: "Login successful!",
