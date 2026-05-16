@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 require("dotenv").config();
 
 const app = express();
@@ -10,15 +13,16 @@ app.use(
     origin: "https://gym-tracker-ruby-mu.vercel.app",
   })
 );
+
 app.use(express.json());
 
 /* MONGODB CONNECTION */
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((error) => console.log(error));
 
 /* USER SCHEMA */
-
 const userSchema = new mongoose.Schema({
   username: String,
   email: String,
@@ -26,7 +30,6 @@ const userSchema = new mongoose.Schema({
 });
 
 /* USER MODEL */
-
 const User = mongoose.model("User", userSchema);
 
 /* WORKOUT SCHEMA */
@@ -39,18 +42,17 @@ const workoutSchema = new mongoose.Schema({
   reps: Number,
 });
 
-/* MODEL */
+/* WORKOUT MODEL */
 const Workout = mongoose.model("Workout", workoutSchema);
 
 /* AUTH MIDDLEWARE */
-
 const verifyToken = (req, res, next) => {
 
   const token = req.headers.authorization;
 
   if (!token) {
 
-    return res.json({
+    return res.status(401).json({
       message: "Access denied",
     });
 
@@ -66,7 +68,7 @@ const verifyToken = (req, res, next) => {
 
   } catch (error) {
 
-    res.json({
+    return res.status(401).json({
       message: "Invalid token",
     });
 
@@ -75,17 +77,12 @@ const verifyToken = (req, res, next) => {
 };
 
 /* REGISTER API */
-
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
 app.post("/api/register", async (req, res) => {
 
   try {
 
     const { username, email, password } = req.body;
 
-    // CHECK EXISTING USER
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -96,10 +93,8 @@ app.post("/api/register", async (req, res) => {
 
     }
 
-    // HASH PASSWORD
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // CREATE USER
     const newUser = new User({
       username,
       email,
@@ -116,19 +111,21 @@ app.post("/api/register", async (req, res) => {
 
     console.log(error);
 
+    res.status(500).json({
+      message: "Server error",
+    });
+
   }
 
 });
 
 /* LOGIN API */
-
 app.post("/api/login", async (req, res) => {
 
   try {
 
     const { email, password } = req.body;
 
-    // FIND USER
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -139,7 +136,6 @@ app.post("/api/login", async (req, res) => {
 
     }
 
-    // CHECK PASSWORD
     const isMatch = await bcrypt.compare(
       password,
       user.password
@@ -153,11 +149,14 @@ app.post("/api/login", async (req, res) => {
 
     }
 
-    // CREATE TOKEN
     const token = jwt.sign(
-      { id: user._id },
+      {
+        id: user._id,
+      },
       "SECRET_KEY",
-      { expiresIn: "1d" }
+      {
+        expiresIn: "1d",
+      }
     );
 
     res.json({
@@ -169,13 +168,15 @@ app.post("/api/login", async (req, res) => {
 
     console.log(error);
 
+    res.status(500).json({
+      message: "Server error",
+    });
+
   }
 
 });
 
-
 /* GET USER WORKOUTS */
-
 app.get("/api/workouts", verifyToken, async (req, res) => {
 
   try {
@@ -190,12 +191,15 @@ app.get("/api/workouts", verifyToken, async (req, res) => {
 
     console.log(error);
 
+    res.status(500).json({
+      message: "Server error",
+    });
+
   }
 
 });
 
 /* POST WORKOUT */
-
 app.post("/api/workouts", verifyToken, async (req, res) => {
 
   try {
@@ -220,61 +224,106 @@ app.post("/api/workouts", verifyToken, async (req, res) => {
 
     console.log(error);
 
-  }
-
-});
-
-/* DELETE API */
-app.delete("/api/workouts/:id", async (req, res) => {
-
-  try {
-
-    await Workout.findByIdAndDelete(req.params.id);
-
-    res.json({
-      message: "Workout deleted successfully!"
-    });
-
-  } catch (error) {
-
     res.status(500).json({
-      error: error.message
+      message: "Server error",
     });
 
   }
 
 });
 
-/* UPDATE API */
-app.put("/api/workouts/:id", async (req, res) => {
+/* DELETE WORKOUT */
+app.delete(
+  "/api/workouts/:id",
+  verifyToken,
+  async (req, res) => {
 
-  try {
+    try {
 
-    const updatedWorkout = await Workout.findByIdAndUpdate(
-      req.params.id,
-      {
-        name: req.body.name,
-        category: req.body.category,        
-        exercise: req.body.exercise,
-        sets: req.body.sets,
-        reps: req.body.reps,
-      },
-      { new: true }
-    );
+      const workout = await Workout.findOne({
+        _id: req.params.id,
+        userId: req.user.id,
+      });
 
-    res.json(updatedWorkout);
+      if (!workout) {
 
-  } catch (error) {
+        return res.status(404).json({
+          message: "Workout not found",
+        });
 
-    res.status(500).json({
-      error: error.message,
-    });
+      }
+
+      await Workout.findByIdAndDelete(req.params.id);
+
+      res.json({
+        message: "Workout deleted successfully!",
+      });
+
+    } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+        message: "Server error",
+      });
+
+    }
 
   }
+);
 
-});
+/* UPDATE WORKOUT */
+app.put(
+  "/api/workouts/:id",
+  verifyToken,
+  async (req, res) => {
+
+    try {
+
+      const workout = await Workout.findOne({
+        _id: req.params.id,
+        userId: req.user.id,
+      });
+
+      if (!workout) {
+
+        return res.status(404).json({
+          message: "Workout not found",
+        });
+
+      }
+
+      const updatedWorkout =
+        await Workout.findByIdAndUpdate(
+          req.params.id,
+          {
+            name: req.body.name,
+            category: req.body.category,
+            exercise: req.body.exercise,
+            sets: req.body.sets,
+            reps: req.body.reps,
+          },
+          { new: true }
+        );
+
+      res.json(updatedWorkout);
+
+    } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+        message: "Server error",
+      });
+
+    }
+
+  }
+);
 
 /* SERVER */
 app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+  console.log(
+    `Server running on port ${process.env.PORT}`
+  );
 });
