@@ -334,3 +334,200 @@ body {
     font-size: 28px;
   }
 }
+
+/* BUTTON STYLES */
+
+.edit-btn,
+.delete-btn,
+.save-btn {
+  margin-top: 12px;
+  margin-right: 10px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+  background: #4b5563;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #6b7280;
+  transform: translateY(-2px);
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  background: #991b1b;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  background: #166534;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #22c55e;
+  transform: translateY(-2px);
+}
+
+/* BMI RESULT */
+
+.bmi-result {
+  margin-top: 20px;
+  padding: 20px;
+  background: #1f1f1f;
+  border-radius: 12px;
+  border: 1px solid #333;
+  text-align: center;
+}
+
+.bmi-result h3 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.bmi-result p {
+  color: #cfcfcf;
+  font-size: 16px;
+}
+
+/* SELECT DROPDOWN */
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #1f1f1f;
+  color: white;
+  font-size: 15px;
+}
+
+/* FILTER BOX */
+
+.filter-box {
+  margin-bottom: 25px;
+}
+
+/* DASHBOARD */
+
+.dashboard-section {
+  padding: 60px 8%;
+  background: #111111;
+}
+
+.dashboard-section h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  font-size: 32px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.dashboard-card {
+  background: #1f1f1f;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid #333;
+  transition: 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  border-color: #555;
+}
+
+.dashboard-card h3 {
+  font-size: 40px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.dashboard-card p {
+  color: #bdbdbd;
+  font-size: 16px;
+}
+
+/* AUTH */
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f0f0f;
+}
+
+.auth-box {
+  width: 350px;
+  padding: 40px;
+  background: #1a1a1a;
+  border-radius: 16px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-box h2 {
+  color: white;
+  text-align: center;
+}
+
+.auth-box input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #111;
+  color: white;
+}
+
+.auth-box button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #444;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.auth-box button:hover {
+  background: #666;
+}
+
+.auth-switch {
+  color: #bbb;
+  text-align: center;
+  cursor: pointer;
+}
+
+.logout-btn {
+  padding: 10px 18px;
+  background: #991b1b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
