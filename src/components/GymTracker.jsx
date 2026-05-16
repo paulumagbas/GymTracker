@@ -54,16 +54,32 @@ useEffect(() => {
 // GET API
 useEffect(() => {
 
+  const token = localStorage.getItem("token");
+
+  // STOP if no token
+  if (!token) {
+    return;
+  }
+
   fetch(
     "https://gymtracker-backend-ety8.onrender.com/api/workouts",
     {
       headers: {
-        Authorization: localStorage.getItem("token"),
+        Authorization: token,
       },
     }
   )
     .then((response) => response.json())
-    .then((data) => setWorkouts(data))
+    .then((data) => {
+
+      // CHECK if data is array
+      if (Array.isArray(data)) {
+        setWorkouts(data);
+      } else {
+        console.log(data.message);
+      }
+
+    })
     .catch((error) => console.log(error));
 
 }, []);
