@@ -53,7 +53,7 @@ useEffect(() => {
 
   // GET API
   useEffect(() => {
-    fetch("http://localhost:5000/api/workouts")
+    fetch("https://gymtracker-backend-ety8.onrender.com/api/workouts")
       .then((response) => response.json())
       .then((data) => setWorkouts(data))
       .catch((error) => console.log(error));
@@ -70,7 +70,7 @@ useEffect(() => {
   reps,
 };
 
-    const response = await fetch("http://localhost:5000/api/workouts", {
+    const response = await fetch("https://gymtracker-backend-ety8.onrender.com/api/workouts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const deleteWorkout = async (id) => {
 
   try {
 
-    await fetch(`http://localhost:5000/api/workouts/${id}`, {
+    await fetch(`https://gymtracker-backend-ety8.onrender.com/api/workouts/${id}`, {
       method: "DELETE",
     });
 
@@ -147,7 +147,7 @@ const deleteWorkout = async (id) => {
       };
 
       const response = await fetch(
-        `http://localhost:5000/api/workouts/${id}`,
+        `https://gymtracker-backend-ety8.onrender.com/api/workouts/${id}`,
         {
           method: "PUT",
           headers: {
@@ -242,7 +242,7 @@ const registerUser = async () => {
   try {
 
     const response = await fetch(
-      "http://localhost:5000/api/register",
+      "https://gymtracker-backend-ety8.onrender.com/api/register",
       {
         method: "POST",
         headers: {
@@ -278,7 +278,7 @@ const loginUser = async () => {
   try {
 
     const response = await fetch(
-      "http://localhost:5000/api/login",
+      "https://gymtracker-backend-ety8.onrender.com/api/login",
       {
         method: "POST",
         headers: {
