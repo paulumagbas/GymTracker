@@ -27,6 +27,7 @@ const User = mongoose.model("User", userSchema);
 
 /* WORKOUT SCHEMA */
 const workoutSchema = new mongoose.Schema({
+  userId: String,
   name: String,
   category: String,
   exercise: String,
@@ -36,6 +37,38 @@ const workoutSchema = new mongoose.Schema({
 
 /* MODEL */
 const Workout = mongoose.model("Workout", workoutSchema);
+
+/* AUTH MIDDLEWARE */
+
+const verifyToken = (req, res, next) => {
+
+  const token = req.headers.authorization;
+
+  if (!token) {
+
+    return res.json({
+      message: "Access denied",
+    });
+
+  }
+
+  try {
+
+    const verified = jwt.verify(token, "SECRET_KEY");
+
+    req.user = verified;
+
+    next();
+
+  } catch (error) {
+
+    res.json({
+      message: "Invalid token",
+    });
+
+  }
+
+};
 
 /* REGISTER API */
 
@@ -136,31 +169,55 @@ app.post("/api/login", async (req, res) => {
 
 });
 
-/* GET API */
-app.get("/api/workouts", async (req, res) => {
 
-  const workouts = await Workout.find();
+/* GET USER WORKOUTS */
 
-  res.json(workouts);
+app.get("/api/workouts", verifyToken, async (req, res) => {
+
+  try {
+
+    const workouts = await Workout.find({
+      userId: req.user.id,
+    });
+
+    res.json(workouts);
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
 });
 
-/* POST API */
-app.post("/api/workouts", async (req, res) => {
+/* POST WORKOUT */
 
-const newWorkout = new Workout({
-  name: req.body.name,
-  category: req.body.category,
-  exercise: req.body.exercise,
-  sets: req.body.sets,
-  reps: req.body.reps,
-});
+app.post("/api/workouts", verifyToken, async (req, res) => {
 
-  await newWorkout.save();
+  try {
 
-  res.json({
-    message: "Workout added successfully!",
-    workout: newWorkout,
-  });
+    const newWorkout = new Workout({
+      userId: req.user.id,
+      name: req.body.name,
+      category: req.body.category,
+      exercise: req.body.exercise,
+      sets: req.body.sets,
+      reps: req.body.reps,
+    });
+
+    await newWorkout.save();
+
+    res.json({
+      message: "Workout added successfully!",
+      workout: newWorkout,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
 });
 
 /* DELETE API */

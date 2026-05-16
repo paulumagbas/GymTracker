@@ -51,13 +51,22 @@ useEffect(() => {
 
 }, []);
 
-  // GET API
-  useEffect(() => {
-    fetch("https://gymtracker-backend-ety8.onrender.com/api/workouts")
-      .then((response) => response.json())
-      .then((data) => setWorkouts(data))
-      .catch((error) => console.log(error));
-  }, []);
+// GET API
+useEffect(() => {
+
+  fetch(
+    "https://gymtracker-backend-ety8.onrender.com/api/workouts",
+    {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => setWorkouts(data))
+    .catch((error) => console.log(error));
+
+}, []);
 
   // POST API
   const addWorkout = async () => {
@@ -72,9 +81,10 @@ useEffect(() => {
 
     const response = await fetch("https://gymtracker-backend-ety8.onrender.com/api/workouts", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+headers: {
+  "Content-Type": "application/json",
+  Authorization: localStorage.getItem("token"),
+},
       body: JSON.stringify(newWorkout),
     });
 
@@ -103,9 +113,12 @@ const deleteWorkout = async (id) => {
 
   try {
 
-    await fetch(`https://gymtracker-backend-ety8.onrender.com/api/workouts/${id}`, {
-      method: "DELETE",
-    });
+await fetch(`https://gymtracker-backend-ety8.onrender.com/api/workouts/${id}`, {
+  method: "DELETE",
+  headers: {
+    Authorization: localStorage.getItem("token"),
+  },
+});
 
     setWorkouts(
        workouts.filter((workout) => workout._id !== id)
@@ -152,6 +165,7 @@ const deleteWorkout = async (id) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
           },
           body: JSON.stringify(updatedWorkout),
         }
